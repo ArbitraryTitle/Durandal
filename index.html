@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UESC TASK MONITOR // MARATHON</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-line"></div>
+            <h1 class="glitch" data-text="UESC TASK MONITOR">UESC TASK MONITOR</h1>
+            <div class="header-subtitle">PARALLEL EXECUTION VISUALIZATION // CRYO ARCHIVE ACCESS</div>
+            <div class="header-line"></div>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">SYSTEM STATUS</span>
+                <span class="value status-active">OPERATIONAL</span>
+            </div>
+            <div class="status-item">
+                <span class="label">ACTIVE THREADS</span>
+                <span class="value" id="thread-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">COMPLETED TASKS</span>
+                <span class="value" id="completed-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">UPTIME</span>
+                <span class="value" id="uptime">00:00:00</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="thread-container" id="thread-container">
+                <!-- Threads will be dynamically inserted here -->
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-header">EXECUTION TIMELINE</div>
+                <div class="timeline" id="timeline">
+                    <!-- Timeline events will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <button class="btn" id="add-task-btn">INITIALIZE TASK</button>
+            <button class="btn" id="parallel-btn">SPAWN PARALLEL THREADS</button>
+            <button class="btn btn-danger" id="clear-btn">PURGE LOGS</button>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">UESC MARATHON // SECURITY CLEARANCE: ALPHA-7 // DO NOT DISTRIBUTE</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
