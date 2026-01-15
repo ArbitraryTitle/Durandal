@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DURANDAL LIVE // TASK MONITOR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-line"></div>
+            <h1 class="glitch" data-text="DURANDAL LIVE">DURANDAL LIVE</h1>
+            <div class="header-subtitle">REAL-TIME EXECUTION MONITOR // SSE STREAM ACTIVE</div>
+            <div class="header-line"></div>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">CONNECTION</span>
+                <span class="value" id="connection-status">CONNECTING...</span>
+            </div>
+            <div class="status-item">
+                <span class="label">ACTIVE THREADS</span>
+                <span class="value" id="thread-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">COMPLETED TASKS</span>
+                <span class="value" id="completed-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">UPTIME</span>
+                <span class="value" id="uptime">00:00:00</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="thread-container" id="thread-container">
+                <!-- Threads will be dynamically inserted here -->
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-header">EVENT STREAM</div>
+                <div class="timeline" id="timeline">
+                    <!-- Timeline events will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">DURANDAL // LIVE MONITORING MODE // SERVER-SENT EVENTS</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Live monitoring integration
+        class LiveMonitor {
+            constructor() {
+                this.eventSource = null;
+                this.reconnectAttempts = 0;
+                this.maxReconnectAttempts = 5;
+                this.connect();
+            }
+
+            connect() {
+                console.log('[DURANDAL] Connecting to event stream...');
+
+                this.eventSource = new EventSource('/events');
+
+                this.eventSource.onopen = () => {
+                    console.log('[DURANDAL] Connected to live feed');
+                    this.reconnectAttempts = 0;
+                    this.updateConnectionStatus('LIVE', true);
+                };
+
+                this.eventSource.onmessage = (e) => {
+                    try {
+                        const event = JSON.parse(e.data);
+                        this.handleEvent(event);
+                    } catch (err) {
+                        console.error('[DURANDAL] Failed to parse event:', err);
+                    }
+                };
+
+                this.eventSource.onerror = (e) => {
+                    console.error('[DURANDAL] Connection error:', e);
+                    this.updateConnectionStatus('DISCONNECTED', false);
+                    this.eventSource.close();
+
+                    // Attempt reconnection
+                    if (this.reconnectAttempts < this.maxReconnectAttempts) {
+                        this.reconnectAttempts++;
+                        const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 10000);
+                        console.log(`[DURANDAL] Reconnecting in ${delay}ms... (attempt ${this.reconnectAttempts})`);
+                        setTimeout(() => this.connect(), delay);
+                    }
+                };
+            }
+
+            handleEvent(event) {
+                console.log('[EVENT]', event);
+
+                switch (event.type) {
+                    case 'connected':
+                        taskMonitor.logEvent('Connected to Durandal live feed', 'completed');
+                        break;
+
+                    case 'task_start':
+                        taskMonitor.startTask(event.name, event.duration);
+                        break;
+
+                    case 'log':
+                        taskMonitor.logEvent(event.message, event.status);
+                        break;
+
+                    case 'ping':
+                        // Keepalive - no action needed
+                        break;
+
+                    default:
+                        console.log('[DURANDAL] Unknown event type:', event.type);
+                }
+            }
+
+            updateConnectionStatus(status, isLive) {
+                const statusEl = document.getElementById('connection-status');
+                statusEl.textContent = status;
+                statusEl.className = 'value';
+                if (isLive) {
+                    statusEl.classList.add('status-active');
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start live monitoring
+            const liveMonitor = new LiveMonitor();
+
+            console.log('═══════════════════════════════════════════════════════');
+            console.log('DURANDAL LIVE MONITOR - Real-time task visualization');
+            console.log('Waiting for task events from server...');
+            console.log('═══════════════════════════════════════════════════════');
+        });
+    </script>
+</body>
+</html>
