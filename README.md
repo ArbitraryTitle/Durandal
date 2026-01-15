@@ -5,6 +5,14 @@ A parallel task execution visualizer inspired by the aesthetic of Bungie's Marat
 ![Marathon Aesthetic](https://img.shields.io/badge/aesthetic-marathon-00d9ff?style=for-the-badge)
 ![Status](https://img.shields.io/badge/status-operational-00ff88?style=for-the-badge)
 
+## 🚀 Deploy Instantly
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ArbitraryTitle/Durandal)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/durandal)
+[![Run on Replit](https://replit.com/badge/github/ArbitraryTitle/Durandal)](https://replit.com/github/ArbitraryTitle/Durandal)
+
+**For live monitoring:** See [CODESPACES_SETUP.md](CODESPACES_SETUP.md) for browser-based setup (no local install needed)
+
 ## Features
 
 - **Real-time thread visualization** - watch parallel tasks execute with animated progress bars
