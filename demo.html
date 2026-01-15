@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Demo - Marathon Task Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .demo-panel {
+            background: var(--bg-panel);
+            border: 2px solid var(--cyan-primary);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .demo-code {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid var(--orange-accent);
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            color: var(--cyan-primary);
+        }
+
+        .demo-button {
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-line"></div>
+            <h1 class="glitch" data-text="API DEMO">API DEMO</h1>
+            <div class="header-subtitle">INTEGRATION EXAMPLES // TASK MONITOR</div>
+            <div class="header-line"></div>
+        </header>
+
+        <div class="demo-panel">
+            <h2 style="color: var(--cyan-primary); margin-bottom: 20px;">API Examples</h2>
+
+            <h3 style="color: var(--orange-accent); margin: 20px 0 10px 0;">1. Single Task</h3>
+            <div class="demo-code">
+taskMonitor.startTask("Processing data.csv", 2000);</div>
+            <button class="btn demo-button" onclick="demo1()">RUN DEMO 1</button>
+
+            <h3 style="color: var(--orange-accent); margin: 20px 0 10px 0;">2. Parallel Tasks (Claude-style)</h3>
+            <div class="demo-code">
+taskMonitor.startParallelTasks([
+    { name: "Read: config.json", duration: 1200 },
+    { name: "Bash: git status", duration: 800 },
+    { name: "Grep: 'TODO' in *.py", duration: 1500 },
+    { name: "Web: fetch API docs", duration: 2000 }
+]);</div>
+            <button class="btn demo-button" onclick="demo2()">RUN DEMO 2</button>
+
+            <h3 style="color: var(--orange-accent); margin: 20px 0 10px 0;">3. Custom Events</h3>
+            <div class="demo-code">
+taskMonitor.logEvent("Branch created: feature/new-ui", "completed");
+taskMonitor.logEvent("Warning: deprecated API", "running");
+taskMonitor.logEvent("Error: connection timeout", "failed");</div>
+            <button class="btn demo-button" onclick="demo3()">RUN DEMO 3</button>
+
+            <h3 style="color: var(--orange-accent); margin: 20px 0 10px 0;">4. Simulated Code Review</h3>
+            <div class="demo-code">
+// Simulate an AI code review process
+const reviewTasks = [
+    { name: "Analyze: syntax & style", duration: 1500 },
+    { name: "Check: security vulnerabilities", duration: 2000 },
+    { name: "Verify: test coverage", duration: 1000 },
+    { name: "Generate: documentation", duration: 2500 }
+];
+taskMonitor.startParallelTasks(reviewTasks);
+taskMonitor.logEvent("Code review initiated", "running");</div>
+            <button class="btn demo-button" onclick="demo4()">RUN DEMO 4</button>
+
+            <h3 style="color: var(--orange-accent); margin: 20px 0 10px 0;">5. Get Statistics</h3>
+            <div class="demo-code">
+const stats = taskMonitor.getStats();
+console.log(`Active: ${stats.activeThreads}`);
+console.log(`Completed: ${stats.completedTasks}`);
+console.log(`Total: ${stats.totalThreads}`);</div>
+            <button class="btn demo-button" onclick="demo5()">RUN DEMO 5</button>
+        </div>
+
+        <div class="main-content">
+            <div class="thread-container" id="thread-container"></div>
+            <div class="timeline-container">
+                <div class="timeline" id="timeline"></div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">ACTIVE THREADS</span>
+                <span class="value" id="thread-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">COMPLETED TASKS</span>
+                <span class="value" id="completed-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">UPTIME</span>
+                <span class="value" id="uptime">00:00:00</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">UESC MARATHON // API DEMONSTRATION MODE</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Demo functions
+        function demo1() {
+            taskMonitor.startTask("Processing data.csv", 2000);
+        }
+
+        function demo2() {
+            taskMonitor.startParallelTasks([
+                { name: "Read: config.json", duration: 1200 },
+                { name: "Bash: git status", duration: 800 },
+                { name: "Grep: 'TODO' in *.py", duration: 1500 },
+                { name: "Web: fetch API docs", duration: 2000 }
+            ]);
+        }
+
+        function demo3() {
+            taskMonitor.logEvent("Branch created: feature/new-ui", "completed");
+            setTimeout(() => {
+                taskMonitor.logEvent("Warning: deprecated API", "running");
+            }, 500);
+            setTimeout(() => {
+                taskMonitor.logEvent("Error: connection timeout", "failed");
+            }, 1000);
+        }
+
+        function demo4() {
+            const reviewTasks = [
+                { name: "Analyze: syntax & style", duration: 1500 },
+                { name: "Check: security vulnerabilities", duration: 2000 },
+                { name: "Verify: test coverage", duration: 1000 },
+                { name: "Generate: documentation", duration: 2500 }
+            ];
+            taskMonitor.startParallelTasks(reviewTasks);
+            taskMonitor.logEvent("Code review initiated", "running");
+        }
+
+        function demo5() {
+            const stats = taskMonitor.getStats();
+            const message = `Stats - Active: ${stats.activeThreads}, Completed: ${stats.completedTasks}, Total: ${stats.totalThreads}`;
+            taskMonitor.logEvent(message, "completed");
+            console.log('Current Statistics:', stats);
+        }
+    </script>
+</body>
+</html>
