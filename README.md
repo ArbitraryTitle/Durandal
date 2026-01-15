@@ -67,8 +67,8 @@ The visual design draws from Marathon's UI:
 
 - **Color Palette**
   - Background: `#0a0e14` (deep space black)
-  - Primary Accent: `#00d9ff` (cyan/teal)
-  - Secondary Accent: `#ff6b35` (orange/amber)
+  - Primary Accent: `#7fff00` (chartreuse/lime green)
+  - Secondary Accents: `#ff6b35` (orange/amber), `#00d9ff` (cyan/teal)
   - Highlight: `#b537f2` (purple/magenta)
 
 - **Typography**: Share Tech Mono (monospace terminal font)
